@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4390999251659872659}
   - component: {fileID: 4390999251656972721}
   - component: {fileID: 4390999251657972593}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: IL3DN_Plant_Grass_02_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5708534539673722713}
   - component: {fileID: 5708534539676589951}
   - component: {fileID: 5708534539675622847}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: IL3DN_Plant_Grass_02_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 5708534539673722719}
   - component: {fileID: 5708534539676589949}
   - component: {fileID: 5708534539675622845}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: IL3DN_Plant_Grass_02_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 515144151564686627}
   - component: {fileID: 1089092144794220141}
   - component: {fileID: -81168501554590347}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: grass 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

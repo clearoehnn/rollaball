@@ -9,7 +9,8 @@ public class LevelController : MonoBehaviour
     public GameObject player;
     private bool isGamePaused = false;
     public AudioMixer audioMixer;
-    private void FixedUpdate()
+    
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
