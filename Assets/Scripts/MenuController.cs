@@ -22,7 +22,7 @@ public class MenuController : MonoBehaviour
     
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -39,6 +39,7 @@ public class MenuController : MonoBehaviour
     {
         mainMenuLayout.GetComponent<Animator>().SetTrigger("Start");
         GetComponent<Animator>().SetTrigger("Start");
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void LoadGame()
@@ -60,6 +61,7 @@ public class MenuController : MonoBehaviour
     {
         entryMenuLayout.GetComponent<Animator>().SetTrigger("Start");
         yield return new WaitForSeconds(0.45f);
+        Cursor.lockState = CursorLockMode.None;
         mainMenuLayout.GetComponent<Animator>().SetTrigger("Load");
         entryMenuLayout.GetComponent<CanvasGroup>().blocksRaycasts = false;
         yield break;

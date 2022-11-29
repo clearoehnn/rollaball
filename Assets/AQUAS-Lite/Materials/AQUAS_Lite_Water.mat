@@ -91,7 +91,7 @@ Material:
     - _FoamContrast: 0.385
     - _FoamIntensity: -1.35
     - _FoamSpeed: 0.1
-    - _FoamTiling: 1.18
+    - _FoamTiling: 0.47
     - _FoamVisibility: 0.044
     - _FogDistance: 1000
     - _FogFade: 1
