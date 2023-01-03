@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 47f7e7c977427d340aa7741728b56347
   - enabled: 1
-    path: Assets/Scenes/Level.unity
+    path: Assets/Scenes/Roll A Ball.unity
     guid: 3d43b2d74411b544daaa10b1ce6162ad
+  - enabled: 1
+    path: Assets/Scenes/Going Balls.unity
+    guid: fb08fab8eab21c748bce6cf24d680d2a
   m_configObjects: {}

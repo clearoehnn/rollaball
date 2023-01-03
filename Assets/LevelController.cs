@@ -35,7 +35,7 @@ public class LevelController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        questText.text = "Ignite all 5 of ruins: " + cleanedRuinCount + "/5";
+        if(questText != null) questText.text = "Ignite all 5 of ruins: " + cleanedRuinCount + "/5";
 
         if (cleanedRuinCount >= 5)
         {
@@ -45,8 +45,8 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator LevelWin()
     {
-        warningText.gameObject.SetActive(true);
-        warningText.text = "Completed mission: Communicate with gods";
+        if(warningText != null) warningText.gameObject.SetActive(true);
+        if(warningText != null) warningText.text = "Completed mission: Communicate with gods";
         yield return new WaitForSeconds(1);
         sceneTransition.GetComponent<Animator>().SetTrigger("Start");
         yield return new WaitForSeconds(1.25f);
@@ -105,5 +105,10 @@ public class LevelController : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    
+    public void LoadScene(int sceneId)
+    {
+        SceneManager.LoadScene(sceneId);
     }
 }

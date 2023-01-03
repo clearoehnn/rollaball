@@ -8,6 +8,10 @@ TagManager:
   - Ruin
   - FxTemporaire
   - Bottom Collider
+  - Boost
+  - Boost1
+  - Checkpoint
+  - Dead
   layers:
   - Default
   - TransparentFX

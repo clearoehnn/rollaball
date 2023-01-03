@@ -35,11 +35,20 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void StartGame(int gameId)
     {
         mainMenuLayout.GetComponent<Animator>().SetTrigger("Start");
         GetComponent<Animator>().SetTrigger("Start");
         Cursor.lockState = CursorLockMode.Locked;
+        switch (gameId)
+        {
+            case 1:
+                GetComponent<Animator>().SetTrigger("StartRollABall");
+                break;
+            case 2:
+                GetComponent<Animator>().SetTrigger("StartGoingBalls");
+                break;
+        }
     }
 
     public void LoadGame()
