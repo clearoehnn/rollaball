@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,10 +28,28 @@ public class PlayerMovement : MonoBehaviour
     public GameObject finishScene;
     public GameObject quest;
     public GameObject respawnEffectPrefab;
+    
+    //Combat
+    private bool _isOnDash;
+    private bool _canDash;
+    public float health;
+    public float hitTimer;
+    public float canHitTimer;
+    public GameObject canDashIndicator;
+    public TextMeshProUGUI healthText;
+    public float dashSpeed;
+    private float _defaultSpeedMultiplier;
+    public GameObject dashVfx;
+    public Vector3 maxVelocity = new Vector3(6, 6, 6);
+    private float _maxVelocity = 6;
+    private GameObject _explosionVfx;
+    public GameObject explosionVfxPrefab;
 
     void Start()
     {
         rigidbody = GetComponentInChildren<Rigidbody>();
+        _canDash = true;
+        _defaultSpeedMultiplier = speedMultiplier;
     }
 
     private void Update()
@@ -59,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
             selectedRuin.transform.GetChild(0).GetComponent<ParticleSystem>().loop = false;
             selectedRuin.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = false;
             selectedRuin.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = false;
+            selectedRuin.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>().loop = false;
             selectedRuin.transform.GetChild(1).gameObject.SetActive(true);
             selectedRuin.transform.GetChild(2).gameObject.SetActive(true);
             selectedRuin.transform.tag = null;
@@ -66,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
             levelController.GetComponent<LevelController>().cleanedRuinCount =
                 levelController.GetComponent<LevelController>().cleanedRuinCount + 1;
         }
+
+        dashVfx.transform.position = transform.position;
     }
 
     private void FixedUpdate()
@@ -85,6 +107,23 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rigidbody.AddForce(movement * moveSpeed * speedMultiplier);
+        
+        //Dash to attack
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash)
+        {
+            _canDash = false;
+            rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 6);
+            _isOnDash = true;
+            canDashIndicator.SetActive(false);
+            speedMultiplier = dashSpeed;
+            dashVfx.GetComponent<ParticleSystem>().Play();
+            StartCoroutine(Attack());
+        }
+
+        if(_canDash)
+        {
+            rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 4);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -145,6 +184,40 @@ public class PlayerMovement : MonoBehaviour
             finishScene.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
         }
+
+        if (other.CompareTag("Health"))
+        {
+            if(health < 100)
+            {
+                health += 40;
+                if (health > 100)
+                {
+                    health = 100;
+                }
+                healthText.text = "Health: " + health.ToString();
+                Destroy(other.gameObject);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.transform.CompareTag("Enemy"))
+        {
+            switch (_isOnDash)
+            {
+                case false:
+                    StartCoroutine(GetDamage());
+                    rigidbody.AddExplosionForce(1000, other.transform.position, 4);
+                    _explosionVfx = Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
+                    _explosionVfx.transform.localScale = _explosionVfx.transform.localScale / 2;
+                    break;
+                case true:
+                    _explosionVfx = Instantiate(explosionVfxPrefab, other.transform.position, Quaternion.identity);
+                    Destroy(other.gameObject);
+                    break;
+            }
+        }
     }
 
     public void OnTriggerExit(Collider other)
@@ -164,6 +237,32 @@ public class PlayerMovement : MonoBehaviour
         {
             speedMultiplier = 1;
         }
+    }
+
+    public IEnumerator GetDamage()
+    {
+        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 6);
+        health -= 20;
+        healthText.text = "Health: " + health.ToString();
+
+        if (health <= 0)
+        {
+            StartCoroutine(LoadAgain());
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 4);
+    }
+
+    public IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(hitTimer);
+        _isOnDash = false;
+        speedMultiplier = _defaultSpeedMultiplier;
+        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 4);
+        yield return new WaitForSeconds(canHitTimer);
+        _canDash = true;
+        canDashIndicator.SetActive(true);
     }
 
     public IEnumerator LoadAgain()

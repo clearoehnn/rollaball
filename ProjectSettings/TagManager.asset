@@ -12,6 +12,8 @@ TagManager:
   - Boost1
   - Checkpoint
   - Dead
+  - Enemy
+  - Health
   layers:
   - Default
   - TransparentFX
@@ -24,8 +26,8 @@ TagManager:
   - Grass
   - House
   - Bottom Collider
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
